@@ -59,11 +59,27 @@ function setLang(l) {
   document.getElementById('foto-form-text').innerText = textos[lang].envialas;
   document.getElementById('footer-text').innerHTML = `${textos[lang].footer} <a href="https://github.com/efervescencia/fiestas-barrio" target="_blank">GitHub Pages</a>`;
   renderFiltros();
+  // Actualiza el día activo al primer día en el idioma seleccionado
+  if (dias.length) {
+    diaActivo = dias[0];
+  } else {
+    diaActivo = null;
+  }
   renderDiasNav();
   renderPrograma();
 }
 
-// Función robusta para parsear CSV (soporta comillas, comas, saltos de línea)
+// Convierte enlaces de Drive en el formato directo de imagen
+function getRealImageUrl(url) {
+  // Si es un enlace de Google Drive tipo /file/d/.../view, conviértelo
+  const match = url.match(/drive\.google\.com\/file\/d\/([^\/]+)\//);
+  if (match) {
+    return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+  }
+  return url;
+}
+
+// CSV robusto
 function parseCSV(csv) {
   const lines = [];
   let curLine = [];
@@ -258,8 +274,9 @@ function renderPrograma() {
     if(ev.imagenes) {
       const imgDiv = card.querySelector('.imagenes');
       ev.imagenes.split(';').forEach(imgUrl => {
-        if(imgUrl.trim())
-          imgDiv.innerHTML += `<img src="${imgUrl.trim()}" alt="Foto evento">`;
+        const realUrl = getRealImageUrl(imgUrl.trim());
+        if(realUrl)
+          imgDiv.innerHTML += `<img src="${realUrl}" alt="Foto evento">`;
       });
     }
     main.appendChild(card);
@@ -274,7 +291,8 @@ function renderGaleria() {
   eventos.forEach(ev => {
     if(ev.imagenes) {
       ev.imagenes.split(';').forEach(imgUrl => {
-        if(imgUrl.trim()) imagenesSet.add(imgUrl.trim());
+        const realUrl = getRealImageUrl(imgUrl.trim());
+        if(realUrl) imagenesSet.add(realUrl);
       });
     }
   });
