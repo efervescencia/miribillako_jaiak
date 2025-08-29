@@ -274,8 +274,15 @@ function renderPrograma() {
       const imgDiv = card.querySelector('.imagenes');
       ev.imagenes.split(';').forEach(imgUrl => {
         const realUrl = getRealImageUrl(imgUrl.trim());
-        if(realUrl)
-          imgDiv.innerHTML += `<img src="${realUrl}" alt="Foto evento">`;
+        if(realUrl) {
+          // Imagen con lightbox
+          const img = document.createElement('img');
+          img.src = realUrl;
+          img.alt = "Foto evento";
+          img.className = "evento-img";
+          img.addEventListener('click', () => openLightbox(realUrl));
+          imgDiv.appendChild(img);
+        }
       });
     }
     main.appendChild(card);
@@ -302,9 +309,31 @@ function renderGaleria() {
   imagenesSet.forEach(url => {
     const img = document.createElement('img');
     img.src = url;
+    img.alt = "Foto evento";
+    img.className = "galeria-img";
+    img.addEventListener('click', () => openLightbox(url));
     gal.appendChild(img);
   });
 }
+
+// LIGHTBOX
+function openLightbox(url) {
+  const overlay = document.getElementById('lightbox-overlay');
+  const img = document.getElementById('lightbox-img');
+  img.src = url;
+  overlay.classList.remove('hidden');
+}
+function closeLightbox() {
+  const overlay = document.getElementById('lightbox-overlay');
+  const img = document.getElementById('lightbox-img');
+  img.src = '';
+  overlay.classList.add('hidden');
+}
+document.getElementById('lightbox-overlay').addEventListener('click', closeLightbox);
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
 
 // Inicializa todo
 setLang('es');
