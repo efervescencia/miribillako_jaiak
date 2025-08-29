@@ -321,17 +321,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.key === 'Escape') closeLightbox();
   });
 
-  // MAPA PLEGABLE
-  window.toggleMap = function(event) {
-    event.preventDefault();
-    const mapContainer = document.getElementById('map-container');
-    if (mapContainer.style.display === 'none' || mapContainer.style.display === '') {
-      mapContainer.style.display = 'block';
-    } else {
-      mapContainer.style.display = 'none';
-    }
-  };
-
   // Inicializa todo
   setLang('es');
   fetchEventos();

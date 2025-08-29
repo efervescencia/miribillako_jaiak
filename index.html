@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Fiestas de Miribilla / Auzoko Jaiak</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -25,14 +25,10 @@
       <div id="galeria"></div>
     </section>
     <section>
-      <h3>
-        <a href="#" id="map-link" onclick="toggleMap(event)">🗺️ Ver mapa del barrio</a>
-      </h3>
-      <div id="map-container" style="display:none;">
-        <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-2.925%2C43.250%2C-2.920%2C43.255&amp;layer=mapnik"
-          style="width:100%; height:300px; border:1px solid #ccc; border-radius:10px; margin-bottom:15px"></iframe>
-      </div>
+      <h3 id="map-link"></h3>
+      <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-2.925%2C43.250%2C-2.920%2C43.255&amp;layer=mapnik"
+        style="width:100%; height:300px; border:1px solid #ccc; border-radius:10px; margin-bottom:15px"></iframe>
     </section>
     <section>
       <h3 id="foto-form-text"></h3>
