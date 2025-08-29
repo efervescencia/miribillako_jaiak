@@ -69,9 +69,8 @@ function setLang(l) {
   renderPrograma();
 }
 
-// Convierte enlaces de Drive en el formato directo de imagen
+// Convierte enlaces Drive "file/d/ID/view" en "uc?export=view&id=ID"
 function getRealImageUrl(url) {
-  // Si es un enlace de Google Drive tipo /file/d/.../view, conviértelo
   const match = url.match(/drive\.google\.com\/file\/d\/([^\/]+)\//);
   if (match) {
     return `https://drive.google.com/uc?export=view&id=${match[1]}`;
