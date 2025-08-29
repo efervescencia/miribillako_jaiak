@@ -33,7 +33,7 @@ const textos = {
     footer: "© Fiestas de Miribilla. Web creada con"
   },
   eus: {
-    titulo: "2025 Miribillako Jaiak",
+    titulo: "2025ko Miribillako Jaiak",
     galeria: "Jaietako galeria",
     mapa: "🗺️ Auzoko mapa ikusi",
     tieneFotos: "Argazkirik?",
