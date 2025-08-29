@@ -56,6 +56,7 @@ nav button {
 }
 nav button.active, nav button:hover { background: #ff9800; color: #fff; }
 #programa { padding: 10px 5vw; }
+
 .evento-card {
   background: #f7f7f7; border-radius: 10px; box-shadow: 0 2px 6px #2222;
   margin: 10px 0; padding: 18px;
@@ -63,14 +64,57 @@ nav button.active, nav button:hover { background: #ff9800; color: #fff; }
 }
 .evento-card.eus { border-left-color: #43a047; }
 .evento-card h3 { margin: 0 0 5px 0; }
-.evento-card .imagenes {
-  margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;
+
+/* NUEVO: Diseño lateral para evento */
+.evento-contenido {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
 }
-.evento-card .imagenes img {
-  max-height: 80px; border-radius: 6px; box-shadow: 0 1px 4px #0002;
-  cursor: pointer; transition: transform .2s;
+.evento-texto {
+  flex: 1;
+  min-width: 0;
 }
-.evento-card .imagenes img:hover { transform: scale(1.13); }
+.evento-foto {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.evento-img-lateral {
+  max-width: 180px;
+  max-height: 130px;
+  border-radius: 9px;
+  box-shadow: 0 1px 8px #0003;
+  object-fit: cover;
+  margin-left: 0;
+  margin-right: 0;
+  cursor: pointer;
+  transition: transform .13s, box-shadow .13s;
+  background: #fff;
+}
+.evento-img-lateral:hover {
+  transform: scale(1.14);
+  box-shadow: 0 4px 24px #ff9800;
+}
+
+/* Responsive lateral a vertical */
+@media (max-width: 700px) {
+  .evento-contenido {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .evento-foto {
+    justify-content: flex-start;
+  }
+  .evento-img-lateral {
+    max-width: 98vw;
+    max-height: 180px;
+    margin-top: 10px;
+  }
+}
+
 #galeria-album {
   margin: 40px auto 40px auto;
   text-align: center;

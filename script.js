@@ -238,7 +238,7 @@ function filtrarEventos(ev) {
   return true;
 }
 
-// Tarjetas multilingües
+// Tarjetas multilingües con imagen a la derecha
 function renderPrograma() {
   const main = document.getElementById('programa');
   const t = textos[lang];
@@ -251,28 +251,32 @@ function renderPrograma() {
   filtrados.forEach(ev => {
     const card = document.createElement('div');
     card.className = `evento-card ${lang}`;
-    card.innerHTML = `
-      <h3>${ev[`evento_${lang}`]}</h3>
-      <p>
-        <b>${ev.hora}</b> -
-        <b>
-          <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev[`lugar_${lang}`])}" target="_blank">
-            ${ev[`lugar_${lang}`]}
-          </a>
-        </b>
-        ${ev[`tipo_evento_${lang}`] ? `<span style="margin-left:10px;padding:2px 8px;background:#ff9800;color:#fff;border-radius:8px;font-size:.9em;">${ev[`tipo_evento_${lang}`]}</span>` : ""}
-      </p>
-      <p>${ev[`descripcion_${lang}`]}</p>
-      <div class="imagenes"></div>
-    `;
+    // Preparamos la imagen lateral (solo la primera si hay varias)
+    let imagenesHTML = '';
     if(ev.imagenes) {
-      const imgDiv = card.querySelector('.imagenes');
-      ev.imagenes.split(';').forEach(imgUrl => {
-        const realUrl = getRealImageUrl(imgUrl.trim());
-        if(realUrl)
-          imgDiv.innerHTML += `<img src="${realUrl}" alt="Foto evento">`;
-      });
+      const urls = ev.imagenes.split(';').map(u => getRealImageUrl(u.trim())).filter(u => u);
+      if(urls.length) {
+        imagenesHTML = `<img src="${urls[0]}" alt="Foto evento" class="evento-img-lateral" onclick="window.open('${urls[0]}','_blank')">`;
+      }
     }
+    card.innerHTML = `
+      <div class="evento-contenido">
+        <div class="evento-texto">
+          <h3>${ev[`evento_${lang}`]}</h3>
+          <p>
+            <b>${ev.hora}</b> -
+            <b>
+              <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev[`lugar_${lang}`])}" target="_blank">
+                ${ev[`lugar_${lang}`]}
+              </a>
+            </b>
+            ${ev[`tipo_evento_${lang}`] ? `<span style="margin-left:10px;padding:2px 8px;background:#ff9800;color:#fff;border-radius:8px;font-size:.9em;">${ev[`tipo_evento_${lang}`]}</span>` : ""}
+          </p>
+          <p>${ev[`descripcion_${lang}`]}</p>
+        </div>
+        ${imagenesHTML ? `<div class="evento-foto">${imagenesHTML}</div>` : ""}
+      </div>
+    `;
     main.appendChild(card);
   });
 }
