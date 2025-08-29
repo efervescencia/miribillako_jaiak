@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
       footer: "© Auzoko jaiak. Web sortua"
     }
   };
-  function setLang(l) {
+  window.setLang = function(l) {
     lang = l;
     document.getElementById('titulo').innerText = textos[lang].titulo;
     document.getElementById('galeria-titulo').innerText = textos[lang].galeria;
