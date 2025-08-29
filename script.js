@@ -53,12 +53,15 @@ const textos = {
 
 function setLang(l) {
   lang = l;
-  document.getElementById('titulo').innerText = textos[lang].titulo;
-  document.getElementById('map-link').innerText = textos[lang].mapa;
-  document.getElementById('foto-form-text').innerText = textos[lang].envialas;
-  document.getElementById('footer-text').innerHTML = `${textos[lang].footer} <a href="https://github.com/efervescencia/fiestas-barrio" target="_blank">GitHub Pages</a>`;
+  const titulo = document.getElementById('titulo');
+  if (titulo) titulo.innerText = textos[lang].titulo;
+  const mapLink = document.getElementById('map-link');
+  if (mapLink) mapLink.innerText = textos[lang].mapa;
+  const fotoFormText = document.getElementById('foto-form-text');
+  if (fotoFormText) fotoFormText.innerText = textos[lang].envialas;
+  const footerText = document.getElementById('footer-text');
+  if (footerText) footerText.innerHTML = `${textos[lang].footer} <a href="https://github.com/efervescencia/fiestas-barrio" target="_blank">GitHub Pages</a>`;
   renderFiltros();
-  // Actualiza el día activo al primer día en el idioma seleccionado
   if (dias.length) {
     diaActivo = dias[0];
   } else {
