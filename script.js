@@ -53,6 +53,7 @@ const textos = {
 
 function setLang(l) {
   lang = l;
+
   const titulo = document.getElementById('titulo');
   if (titulo) titulo.innerText = textos[lang].titulo;
   const mapLink = document.getElementById('map-link');
@@ -61,12 +62,25 @@ function setLang(l) {
   if (fotoFormText) fotoFormText.innerText = textos[lang].envialas;
   const footerText = document.getElementById('footer-text');
   if (footerText) footerText.innerHTML = `${textos[lang].footer} <a href="https://github.com/efervescencia/fiestas-barrio" target="_blank">GitHub Pages</a>`;
-  renderFiltros();
+
+  // RECONSTRUYE arrays en el idioma actual
+  dias = [];
+  tipos = [];
+  lugares = [];
+  eventos.forEach(obj => {
+    if(obj[`dia_${lang}`] && !dias.includes(obj[`dia_${lang}`])) dias.push(obj[`dia_${lang}`]);
+    if(obj[`tipo_evento_${lang}`] && !tipos.includes(obj[`tipo_evento_${lang}`])) tipos.push(obj[`tipo_evento_${lang}`]);
+    if(obj[`lugar_${lang}`] && !lugares.includes(obj[`lugar_${lang}`])) lugares.push(obj[`lugar_${lang}`]);
+  });
+
+  // Selecciona un día activo válido
   if (dias.length) {
     diaActivo = dias[0];
   } else {
     diaActivo = null;
   }
+
+  renderFiltros();
   renderDiasNav();
   renderPrograma();
 }
