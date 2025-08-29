@@ -16,10 +16,10 @@ let filtros = {
 
 const textos = {
   es: {
-    titulo: "Fiestas de Miribilla",
+    titulo: "Fiestas de Miribilla 2025",
     galeria: "Galería de las Fiestas",
     mapa: "🗺️ Ver mapa del barrio",
-    tieneFotos: "¿Tienes fotos?",
+    tieneFotos: "¿Quieres compartir fotos?",
     envialas: "¡Sube tu foto aquí!",
     enviarFooter: "Web creada con",
     dia: "Día",
@@ -30,10 +30,10 @@ const textos = {
     limpiar: "Limpiar",
     todos: "Todos",
     noEventosFiltro: "No hay eventos para este filtro.",
-    footer: "© Fiestas del Barrio. Web creada con"
+    footer: "© Fiestas de Miribilla. Web creada con"
   },
   eus: {
-    titulo: "Auzoko Jaiak",
+    titulo: "2025 Miribillako Jaiak",
     galeria: "Jaietako galeria",
     mapa: "🗺️ Auzoko mapa ikusi",
     tieneFotos: "Argazkirik?",
@@ -47,7 +47,7 @@ const textos = {
     limpiar: "Garbitu",
     todos: "Guztiak",
     noEventosFiltro: "Ez dago ekitaldirik filtro honekin.",
-    footer: "© Auzoko jaiak. Web sortua"
+    footer: "© Miribillako jaiak. Web sortua"
   }
 };
 
