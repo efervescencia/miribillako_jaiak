@@ -6,7 +6,6 @@ let dias = [];
 let tipos = [];
 let lugares = [];
 let filtros = {
-  dia: '',
   tipo: '',
   lugar: '',
   hora_ini: '',
@@ -73,12 +72,8 @@ function setLang(l) {
     if(obj[`lugar_${lang}`] && !lugares.includes(obj[`lugar_${lang}`])) lugares.push(obj[`lugar_${lang}`]);
   });
 
-  // Selecciona un día activo válido
-  if (dias.length) {
-    diaActivo = dias[0];
-  } else {
-    diaActivo = null;
-  }
+  // Ya no selecciona automáticamente ningún día
+  diaActivo = null;
 
   renderFiltros();
   renderDiasNav();
@@ -170,6 +165,7 @@ async function fetchEventos() {
       if(obj[`lugar_${lang}`] && !lugares.includes(obj[`lugar_${lang}`])) lugares.push(obj[`lugar_${lang}`]);
       eventos.push(obj);
     }
+    diaActivo = null;
     renderFiltros();
     renderDiasNav();
     renderPrograma();
@@ -178,6 +174,7 @@ async function fetchEventos() {
   }
 }
 
+// FILTROS SIN SELECTOR DE DÍA
 function renderFiltros() {
   const f = filtros;
   const t = textos[lang];
@@ -214,7 +211,7 @@ window.onFiltroChange = function(key, val) {
 };
 
 window.resetFiltros = function() {
-  filtros = {dia:'', tipo:'', lugar:'', hora_ini:'', hora_fin:'', texto:''};
+  filtros = {tipo:'', lugar:'', hora_ini:'', hora_fin:'', texto:''};
   renderFiltros();
   renderPrograma();
 };
@@ -223,19 +220,33 @@ let diaActivo = null;
 function renderDiasNav() {
   const nav = document.getElementById('dias-nav');
   nav.innerHTML = '';
+
+  // Botón "Todos" al inicio
+  const btnTodos = document.createElement('button');
+  btnTodos.innerText = textos[lang].todos;
+  btnTodos.className = diaActivo === null ? 'active' : '';
+  btnTodos.onclick = () => {
+    diaActivo = null;
+    renderPrograma();
+    renderDiasNav();
+  };
+  nav.appendChild(btnTodos);
+
   dias.forEach(dia => {
     const btn = document.createElement('button');
     btn.innerText = dia;
     btn.className = dia === diaActivo ? 'active' : '';
-    btn.onclick = () => { diaActivo = dia; renderPrograma(); renderDiasNav(); };
+    btn.onclick = () => {
+      diaActivo = dia;
+      renderPrograma();
+      renderDiasNav();
+    };
     nav.appendChild(btn);
   });
-  if(!diaActivo && dias.length) diaActivo = dias[0];
 }
 
 // Filtro eventos multilingüe
 function filtrarEventos(ev) {
-  if(filtros.dia && ev[`dia_${lang}`] !== filtros.dia) return false;
   if(filtros.tipo && ev[`tipo_evento_${lang}`] !== filtros.tipo) return false;
   if(filtros.lugar && ev[`lugar_${lang}`] !== filtros.lugar) return false;
   if(filtros.hora_ini || filtros.hora_fin) {
@@ -252,7 +263,7 @@ function filtrarEventos(ev) {
     ].join(' ').toLowerCase();
     if(!busqueda.includes(txt)) return false;
   }
-  if(ev[`dia_${lang}`] !== diaActivo) return false;
+  if(diaActivo !== null && ev[`dia_${lang}`] !== diaActivo) return false;
   return true;
 }
 
