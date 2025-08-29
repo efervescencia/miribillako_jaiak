@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('foto-form-text').innerText = textos[lang].envialas;
     document.getElementById('footer-text').innerHTML = `${textos[lang].footer} <a href="https://github.com/efervescencia/fiestas-barrio" target="_blank">GitHub Pages</a>`;
     renderFiltros();
-    // Actualiza el día activo al primer día en el idioma seleccionado
     if (dias.length) {
       diaActivo = dias[0];
     } else {
@@ -70,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
     renderPrograma();
   }
 
-  // Convierte enlaces Drive "file/d/ID/view" en "uc?export=view&id=ID"
   function getRealImageUrl(url) {
     const match = url.match(/drive\.google\.com\/file\/d\/([^\/]+)\//);
     if (match) {
@@ -79,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return url;
   }
 
-  // CSV robusto
   function parseCSV(csv) {
     const lines = [];
     let curLine = [];
@@ -105,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
           curLine.push(curCell);
           curCell = '';
         } else if (char === '\r') {
-          // ignore CR
         } else if (char === '\n') {
           curLine.push(curCell);
           lines.push(curLine);
@@ -324,6 +320,17 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeLightbox();
   });
+
+  // MAPA PLEGABLE
+  window.toggleMap = function(event) {
+    event.preventDefault();
+    const mapContainer = document.getElementById('map-container');
+    if (mapContainer.style.display === 'none' || mapContainer.style.display === '') {
+      mapContainer.style.display = 'block';
+    } else {
+      mapContainer.style.display = 'none';
+    }
+  };
 
   // Inicializa todo
   setLang('es');
