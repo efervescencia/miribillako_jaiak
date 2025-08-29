@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_rQI15YfKRWEizmqgicHivibosHIHcd6zNVQVjR7HCUUbjS__F42MS-sIMtOnbMOvoaplkjVURBDa/pub?output=csv";
-
-  let lang = 'es'; // 'es' para español, 'eus' para euskera
+  let lang = 'es';
   let eventos = [];
   let dias = [];
   let tipos = [];
@@ -14,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     hora_fin: '',
     texto: ''
   };
-
   const textos = {
     es: {
       titulo: "Fiestas de Miribilla",
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
       footer: "© Auzoko jaiak. Web sortua"
     }
   };
-
   function setLang(l) {
     lang = l;
     document.getElementById('titulo').innerText = textos[lang].titulo;
@@ -60,23 +57,17 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('foto-form-text').innerText = textos[lang].envialas;
     document.getElementById('footer-text').innerHTML = `${textos[lang].footer} <a href="https://github.com/efervescencia/fiestas-barrio" target="_blank">GitHub Pages</a>`;
     renderFiltros();
-    if (dias.length) {
-      diaActivo = dias[0];
-    } else {
-      diaActivo = null;
-    }
     renderDiasNav();
     renderPrograma();
   }
-
   function getRealImageUrl(url) {
+    if (!url) return '';
     const match = url.match(/drive\.google\.com\/file\/d\/([^\/]+)\//);
     if (match) {
       return `https://drive.google.com/uc?export=view&id=${match[1]}`;
     }
     return url;
   }
-
   function parseCSV(csv) {
     const lines = [];
     let curLine = [];
@@ -87,38 +78,20 @@ document.addEventListener('DOMContentLoaded', function () {
       if (inQuotes) {
         if (char === '"') {
           if (csv[i + 1] === '"') {
-            curCell += '"';
-            i++;
-          } else {
-            inQuotes = false;
-          }
-        } else {
-          curCell += char;
-        }
+            curCell += '"'; i++;
+          } else { inQuotes = false; }
+        } else { curCell += char; }
       } else {
-        if (char === '"') {
-          inQuotes = true;
-        } else if (char === ',') {
-          curLine.push(curCell);
-          curCell = '';
-        } else if (char === '\r') {
-        } else if (char === '\n') {
-          curLine.push(curCell);
-          lines.push(curLine);
-          curLine = [];
-          curCell = '';
-        } else {
-          curCell += char;
-        }
+        if (char === '"') { inQuotes = true; }
+        else if (char === ',') { curLine.push(curCell); curCell = ''; }
+        else if (char === '\r') {}
+        else if (char === '\n') { curLine.push(curCell); lines.push(curLine); curLine = []; curCell = ''; }
+        else { curCell += char; }
       }
     }
-    if (curCell.length > 0 || curLine.length > 0) {
-      curLine.push(curCell);
-      lines.push(curLine);
-    }
+    if (curCell.length > 0 || curLine.length > 0) { curLine.push(curCell); lines.push(curLine); }
     return lines;
   }
-
   async function fetchEventos() {
     try {
       const res = await fetch(SHEET_URL);
@@ -149,7 +122,28 @@ document.addEventListener('DOMContentLoaded', function () {
       console.error("Error al cargar y procesar el archivo CSV:", err);
     }
   }
-
+  window.onFiltroChange = function(key, val) {
+    filtros[key] = val;
+    renderPrograma();
+  };
+  window.resetFiltros = function() {
+    filtros = {dia:'', tipo:'', lugar:'', hora_ini:'', hora_fin:'', texto:''};
+    renderFiltros();
+    renderPrograma();
+  };
+  let diaActivo = null;
+  function renderDiasNav() {
+    const nav = document.getElementById('dias-nav');
+    nav.innerHTML = '';
+    dias.forEach(dia => {
+      const btn = document.createElement('button');
+      btn.innerText = dia;
+      btn.className = dia === diaActivo ? 'active' : '';
+      btn.onclick = () => { diaActivo = dia; renderPrograma(); renderDiasNav(); };
+      nav.appendChild(btn);
+    });
+    if(!diaActivo && dias.length) diaActivo = dias[0];
+  }
   function renderFiltros() {
     const f = filtros;
     const t = textos[lang];
@@ -184,32 +178,6 @@ document.addEventListener('DOMContentLoaded', function () {
       <button onclick="resetFiltros()" style="padding:4px 10px; border-radius:4px; border:none; background:#ff9800; color:#fff; font-weight:bold;">${t.limpiar}</button>
     `;
   }
-
-  window.onFiltroChange = function(key, val) {
-    filtros[key] = val;
-    renderPrograma();
-  };
-
-  window.resetFiltros = function() {
-    filtros = {dia:'', tipo:'', lugar:'', hora_ini:'', hora_fin:'', texto:''};
-    renderFiltros();
-    renderPrograma();
-  };
-
-  let diaActivo = null;
-  function renderDiasNav() {
-    const nav = document.getElementById('dias-nav');
-    nav.innerHTML = '';
-    dias.forEach(dia => {
-      const btn = document.createElement('button');
-      btn.innerText = dia;
-      btn.className = dia === diaActivo ? 'active' : '';
-      btn.onclick = () => { diaActivo = dia; renderPrograma(); renderDiasNav(); };
-      nav.appendChild(btn);
-    });
-    if(!diaActivo && dias.length) diaActivo = dias[0];
-  }
-
   function filtrarEventos(ev) {
     if(filtros.dia && ev[`dia_${lang}`] !== filtros.dia) return false;
     if(filtros.tipo && ev[`tipo_evento_${lang}`] !== filtros.tipo) return false;
@@ -231,8 +199,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if(ev[`dia_${lang}`] !== diaActivo) return false;
     return true;
   }
-
   function renderPrograma() {
+    // Día activo bien separado y con estilo
+    const diaTitulo = document.getElementById('dia-titulo');
+    diaTitulo.innerText = diaActivo ? diaActivo : '';
     const main = document.getElementById('programa');
     const t = textos[lang];
     main.innerHTML = '';
@@ -275,7 +245,6 @@ document.addEventListener('DOMContentLoaded', function () {
       main.appendChild(card);
     });
   }
-
   function renderGaleria() {
     const gal = document.getElementById('galeria');
     gal.innerHTML = '';
@@ -301,8 +270,6 @@ document.addEventListener('DOMContentLoaded', function () {
       gal.appendChild(img);
     });
   }
-
-  // LIGHTBOX
   function openLightbox(url) {
     const overlay = document.getElementById('lightbox-overlay');
     const img = document.getElementById('lightbox-img');
@@ -320,8 +287,6 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeLightbox();
   });
-
-  // Inicializa todo
   setLang('es');
   fetchEventos();
 });
