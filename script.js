@@ -108,26 +108,40 @@ function parseCSV(csv) {
 }
 
 async function fetchEventos() {
-  const res = await fetch(SHEET_URL);
-  const csv = await res.text();
-  const rows = parseCSV(csv);
-  const head = rows[0];
-  eventos = [];
-  dias = [];
-  tipos = [];
-  lugares = [];
-  for(let i=1; i < rows.length; i++) {
-    let obj = {};
-    head.forEach((h, idx) => { obj[h.trim()] = rows[i][idx] ? rows[i][idx].trim() : ""; });
-    if(obj[`dia_${lang}`] && !dias.includes(obj[`dia_${lang}`])) dias.push(obj[`dia_${lang}`]);
-    if(obj[`tipo_evento_${lang}`] && !tipos.includes(obj[`tipo_evento_${lang}`])) tipos.push(obj[`tipo_evento_${lang}`]);
-    if(obj[`lugar_${lang}`] && !lugares.includes(obj[`lugar_${lang}`])) lugares.push(obj[`lugar_${lang}`]);
-    eventos.push(obj);
+  console.log("Iniciando carga del archivo CSV...");
+  try {
+    const res = await fetch(SHEET_URL);
+    if (!res.ok) {
+      console.error("Error al descargar el archivo CSV:", res.status, res.statusText);
+      return;
+    }
+    console.log("Archivo CSV descargado correctamente.");
+    const csv = await res.text();
+    const rows = parseCSV(csv);
+    const head = rows[0];
+    eventos = [];
+    dias = [];
+    tipos = [];
+    lugares = [];
+    for(let i=1; i < rows.length; i++) {
+      let obj = {};
+      head.forEach((h, idx) => { obj[h.trim()] = rows[i][idx] ? rows[i][idx].trim() : ""; });
+      if(obj[`dia_${lang}`] && !dias.includes(obj[`dia_${lang}`])) dias.push(obj[`dia_${lang}`]);
+      if(obj[`tipo_evento_${lang}`] && !tipos.includes(obj[`tipo_evento_${lang}`])) tipos.push(obj[`tipo_evento_${lang}`]);
+      if(obj[`lugar_${lang}`] && !lugares.includes(obj[`lugar_${lang}`])) lugares.push(obj[`lugar_${lang}`]);
+      eventos.push(obj);
+    }
+    console.log(`Se han leído ${eventos.length} eventos.`);
+    if(eventos.length === 0) {
+      console.warn("¡No se ha leído ningún evento del archivo CSV!");
+    }
+    renderFiltros();
+    renderDiasNav();
+    renderPrograma();
+    renderGaleria();
+  } catch (err) {
+    console.error("Error al cargar y procesar el archivo CSV:", err);
   }
-  renderFiltros();
-  renderDiasNav();
-  renderPrograma();
-  renderGaleria();
 }
 
 function renderFiltros() {
