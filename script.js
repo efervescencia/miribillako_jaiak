@@ -183,12 +183,6 @@ function renderFiltros() {
   const t = textos[lang];
   const cont = document.getElementById('filtros');
   cont.innerHTML = `
-    <label>${t.dia}:
-      <select id="filtro-dia" onchange="onFiltroChange('dia', this.value)">
-        <option value="">${t.todos}</option>
-        ${dias.map(d => `<option value="${d}" ${f.dia===d?"selected":""}>${d}</option>`).join("")}
-      </select>
-    </label>
     <label>${t.tipo}:
       <select id="filtro-tipo" onchange="onFiltroChange('tipo', this.value)">
         <option value="">${t.todos}</option>
