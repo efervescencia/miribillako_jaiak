@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miribillako jaiak</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <img src="img/logo.jpg" alt="Logo de fiestas de Miribilla" class="logo">
+    <h1 id="titulo">Miribillako jaiak / Fiestas de Miribilla</h1>
+    <div class="idiomas">
+      <button onclick="setLang('es')">ES</button>
+      <button onclick="setLang('eus')">EUS</button>
+    </div>
+    <a href="https://maps.app.goo.gl/zhxtRcVjeB1WHYUr6" target="_blank" class="map-link" id="map-link">🗺️ Ver mapa del barrio</a>
+  </header>
+  <section id="filtros"></section>
+  <nav id="dias-nav"></nav>
+  <main id="programa"></main>
+  <section>
+    <h2 id="galeria-titulo">Galería de las Fiestas</h2>
+    <div id="galeria"></div>
+    <h3 id="foto-envio">
+      ¿Tienes fotos? <span id="foto-form-text"></span>
+    </h3>
+    <div id="formulario-fotos" style="margin-top:20px;">
+      <!-- Sustituye TU_FORM_ID por el ID real de tu formulario -->
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScTUIBOg0qQW3gmflxAdTVO9WyzOoD0N3DjhVO7HSVdBCaLBg/viewform?embedded=true" width="100%" height="650" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+    </div>
+  </section>
+  <footer>
+    <p id="footer-text">© Miribillako jaiak. Web creada con <a href="https://github.com/efervescencia/miribillako_jaiak" target="_blank">GitHub Pages</a></p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

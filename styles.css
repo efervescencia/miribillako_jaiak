@@ -1,0 +1,89 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #fff;
+  color: #222;
+  margin: 0; padding: 0;
+}
+header {
+  background: linear-gradient(90deg, #ff3b3f 15%, #0a74da 35%, #fff 55%, #43a047 75%, #ff9800 100%);
+  color: #fff;
+  padding: 20px 10px;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.logo {
+  height: 60px; margin-right: 20px; border-radius: 10px;
+}
+h1 { margin: 0; flex: 1; }
+.idiomas button {
+  margin: 0 2px;
+  padding: 8px 12px;
+  background: #fff; color: #222; border: none; border-radius: 5px; cursor: pointer;
+  font-weight: bold;
+}
+.map-link {
+  background: #fff; color: #0a74da; border-radius: 5px;
+  text-decoration: none; padding: 8px 12px; font-weight: bold;
+  margin-left: 10px;
+}
+#filtros {
+  background: #f2f2f2;
+  padding: 10px 5vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+}
+#filtros label {
+  font-size: 0.95em;
+  margin-right: 5px;
+}
+#filtros select, #filtros input[type="text"], #filtros input[type="time"] {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  margin-right: 10px;
+  font-size: 1em;
+}
+nav {
+  margin: 20px 0 10px 0; text-align: center;
+}
+nav button {
+  margin: 2px 5px;
+  background: #0a74da; color: #fff; border: none; border-radius: 5px;
+  padding: 8px 14px; font-weight: bold; cursor: pointer;
+  transition: background 0.2s;
+}
+nav button.active, nav button:hover { background: #ff9800; color: #fff; }
+#programa { padding: 10px 5vw; }
+.evento-card {
+  background: #f7f7f7; border-radius: 10px; box-shadow: 0 2px 6px #2222;
+  margin: 10px 0; padding: 18px;
+  border-left: 10px solid #ff3b3f;
+}
+.evento-card.eus { border-left-color: #43a047; }
+.evento-card h3 { margin: 0 0 5px 0; }
+.evento-card .imagenes {
+  margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;
+}
+.evento-card .imagenes img {
+  max-height: 80px; border-radius: 6px; box-shadow: 0 1px 4px #0002;
+  cursor: pointer; transition: transform .2s;
+}
+.evento-card .imagenes img:hover { transform: scale(1.13); }
+#galeria { display: flex; flex-wrap: wrap; gap: 12px; padding: 10px; }
+#galeria img {
+  height: 120px; border-radius: 8px; box-shadow: 0 1px 8px #0003;
+  cursor: pointer; transition: transform .2s;
+}
+#galeria img:hover { transform: scale(1.13); }
+footer {
+  background: #f8f8f8; color: #888; text-align: center; padding: 10px;
+  font-size: 0.95em;
+}
+@media (max-width: 600px) {
+  header { flex-direction: column; text-align: center; }
+  .logo { margin-bottom: 10px; }
+  #programa, #filtros { padding: 10px 2vw; }
+  #filtros { flex-direction: column; align-items: stretch; }
+}
