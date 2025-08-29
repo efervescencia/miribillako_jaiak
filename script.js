@@ -54,7 +54,6 @@ const textos = {
 function setLang(l) {
   lang = l;
   document.getElementById('titulo').innerText = textos[lang].titulo;
-  document.getElementById('galeria-titulo').innerText = textos[lang].galeria;
   document.getElementById('map-link').innerText = textos[lang].mapa;
   document.getElementById('foto-form-text').innerText = textos[lang].envialas;
   document.getElementById('footer-text').innerHTML = `${textos[lang].footer} <a href="https://github.com/efervescencia/fiestas-barrio" target="_blank">GitHub Pages</a>`;
@@ -123,14 +122,12 @@ function parseCSV(csv) {
 }
 
 async function fetchEventos() {
-  console.log("Iniciando carga del archivo CSV...");
   try {
     const res = await fetch(SHEET_URL);
     if (!res.ok) {
       console.error("Error al descargar el archivo CSV:", res.status, res.statusText);
       return;
     }
-    console.log("Archivo CSV descargado correctamente.");
     const csv = await res.text();
     const rows = parseCSV(csv);
     const head = rows[0];
@@ -146,14 +143,9 @@ async function fetchEventos() {
       if(obj[`lugar_${lang}`] && !lugares.includes(obj[`lugar_${lang}`])) lugares.push(obj[`lugar_${lang}`]);
       eventos.push(obj);
     }
-    console.log(`Se han leído ${eventos.length} eventos.`);
-    if(eventos.length === 0) {
-      console.warn("¡No se ha leído ningún evento del archivo CSV!");
-    }
     renderFiltros();
     renderDiasNav();
     renderPrograma();
-    renderGaleria();
   } catch (err) {
     console.error("Error al cargar y procesar el archivo CSV:", err);
   }
@@ -282,7 +274,7 @@ function renderPrograma() {
   });
 }
 
-
-// Inicializa todo
-setLang('es');
-fetchEventos();
+document.addEventListener('DOMContentLoaded', function() {
+  setLang('es');
+  fetchEventos();
+});
