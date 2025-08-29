@@ -1,4 +1,4 @@
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_rQI15YfKRWEizmqgicHivibosHIHcd6zNVQVjR7HCUUbjS__F42MS-sIMtOnbMOvoaplkjVURBDa/pub?gid=0&single=true&output=csv";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_rQI15YfKRWEizmqgicHivibosHIHcd6zNVQVjR7HCUUbjS__F42MS-sIMtOnbMOvoaplkjVURBDa/pub?output=csv";
 
 let lang = 'es'; // 'es' para español, 'eus' para euskera
 let eventos = [];
