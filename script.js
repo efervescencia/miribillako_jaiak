@@ -282,29 +282,6 @@ function renderPrograma() {
   });
 }
 
-// GALERÍA GENERAL: todas las imágenes de todos los eventos, sin repetir
-function renderGaleria() {
-  const gal = document.getElementById('galeria');
-  gal.innerHTML = '';
-  let imagenesSet = new Set();
-  eventos.forEach(ev => {
-    if(ev.imagenes) {
-      ev.imagenes.split(';').forEach(imgUrl => {
-        const realUrl = getRealImageUrl(imgUrl.trim());
-        if(realUrl) imagenesSet.add(realUrl);
-      });
-    }
-  });
-  if (imagenesSet.size === 0) {
-    gal.innerHTML = `<p style="color:#888;">${lang === 'es' ? 'No hay fotos todavía.' : 'Oraindik ez dago argazkirik.'}</p>`;
-    return;
-  }
-  imagenesSet.forEach(url => {
-    const img = document.createElement('img');
-    img.src = url;
-    gal.appendChild(img);
-  });
-}
 
 // Inicializa todo
 setLang('es');

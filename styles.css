@@ -71,15 +71,30 @@ nav button.active, nav button:hover { background: #ff9800; color: #fff; }
   cursor: pointer; transition: transform .2s;
 }
 .evento-card .imagenes img:hover { transform: scale(1.13); }
-#galeria { display: flex; flex-wrap: wrap; gap: 12px; padding: 10px; }
-#galeria img {
-  height: 120px; border-radius: 8px; box-shadow: 0 1px 8px #0003;
-  cursor: pointer; transition: transform .2s;
+#galeria-album {
+  margin: 40px auto 40px auto;
+  text-align: center;
 }
-#galeria img:hover { transform: scale(1.13); }
-footer {
-  background: #f8f8f8; color: #888; text-align: center; padding: 10px;
-  font-size: 0.95em;
+.galeria-portada {
+  max-width: 340px;
+  width: 96vw;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px #0002;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+  margin-bottom: 10px;
+  border: 3px solid #ff9800;
+}
+.galeria-portada:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 32px #ff9800aa;
+}
+.galeria-enlace-texto {
+  font-size: 1.1em;
+  margin-top: 8px;
+  color: #ff9800;
+  font-weight: bold;
+  letter-spacing: .5px;
 }
 @media (max-width: 600px) {
   header { flex-direction: column; text-align: center; }
