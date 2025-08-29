@@ -63,10 +63,54 @@ function setLang(l) {
   renderPrograma();
 }
 
+// Función robusta para parsear CSV (soporta comillas, comas, saltos de línea)
+function parseCSV(csv) {
+  const lines = [];
+  let curLine = [];
+  let curCell = '';
+  let inQuotes = false;
+  for (let i = 0; i < csv.length; i++) {
+    let char = csv[i];
+    if (inQuotes) {
+      if (char === '"') {
+        if (csv[i + 1] === '"') {
+          curCell += '"';
+          i++;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        curCell += char;
+      }
+    } else {
+      if (char === '"') {
+        inQuotes = true;
+      } else if (char === ',') {
+        curLine.push(curCell);
+        curCell = '';
+      } else if (char === '\r') {
+        // ignore CR
+      } else if (char === '\n') {
+        curLine.push(curCell);
+        lines.push(curLine);
+        curLine = [];
+        curCell = '';
+      } else {
+        curCell += char;
+      }
+    }
+  }
+  if (curCell.length > 0 || curLine.length > 0) {
+    curLine.push(curCell);
+    lines.push(curLine);
+  }
+  return lines;
+}
+
 async function fetchEventos() {
   const res = await fetch(SHEET_URL);
   const csv = await res.text();
-  const rows = csv.split('\n').map(r => r.split(','));
+  const rows = parseCSV(csv);
   const head = rows[0];
   eventos = [];
   dias = [];
