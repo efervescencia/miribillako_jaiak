@@ -73,11 +73,21 @@ function setLang(l) {
 
 // Convierte enlaces Drive "file/d/ID/view" en "uc?export=view&id=ID"
 function getRealImageUrl(url) {
+  // Si es Drive
   const match = url.match(/drive\.google\.com\/file\/d\/([^\/]+)\//);
   if (match) {
     return `https://drive.google.com/uc?export=view&id=${match[1]}`;
   }
-  return url;
+  // Si es una URL completa (http/https), devuélvela tal cual
+  if (/^https?:\/\//.test(url)) {
+    return url;
+  }
+  // Si es solo el nombre (sin barra y sin punto), ignora
+  if (!url || !url.trim()) return "";
+  // Si ya contiene una ruta (por ejemplo img/...), devuélvela tal cual
+  if (url.includes('/')) return url;
+  // Si es solo nombre de archivo
+  return `img/eventos/${url}`;
 }
 
 // CSV robusto
