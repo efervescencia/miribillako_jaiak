@@ -74,7 +74,7 @@ function setLang(l) {
   });
 
   // Selecciona el primer día por defecto
-  diaActivo = dias.length ? dias[0] : null;
+  diaActivo = dias.length ? dias[1] : null;
 
   renderFiltros();
   renderDiasNav();
@@ -160,7 +160,7 @@ async function fetchEventos() {
       eventos.push(obj);
     }
     // Selecciona el primer día por defecto
-    diaActivo = dias.length ? dias[0] : null;
+    diaActivo = dias.length ? dias[1] : null;
     renderFiltros();
     renderDiasNav();
     renderPrograma();
@@ -226,7 +226,7 @@ function renderDiasNav() {
   });
 
   // Por defecto, si no hay día activo, selecciona el primero
-  if(!diaActivo && dias.length) diaActivo = dias[0];
+  if(!diaActivo && dias.length) diaActivo = dias[1];
 }
 
 function filtrarEventos(ev) {
