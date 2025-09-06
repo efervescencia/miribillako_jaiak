@@ -51,6 +51,34 @@ const textos = {
   }
 };
 
+function obtenerDiaPorFechaActual(dias) {
+  // Define el rango de fechas de las fiestas
+  const primerDiaFiesta = new Date(2025, 8, 5); // septiembre (mes base 0)
+  const ultimoDiaFiesta = new Date(2025, 8, 13);
+
+  const hoy = new Date();
+
+  // Si hoy es antes del primer día o después del último, devuelve el primer día
+  if (hoy < primerDiaFiesta || hoy > ultimoDiaFiesta) {
+    return dias[0] || null;
+  }
+
+  // Busca el día en el array 'dias' que coincida con la fecha actual
+  for (let i = 0; i < dias.length; i++) {
+    // Extraer el número de día del texto (formato: "Viernes 5", "Larunbata 6", etc.)
+    const match = dias[i].match(/(\d{1,2})/);
+    if (match) {
+      const diaNum = parseInt(match[1], 10);
+      if (hoy.getDate() === diaNum && hoy.getMonth() === 8) { // septiembre = 8
+        return dias[i];
+      }
+    }
+  }
+
+  // Si no hay coincidencia exacta, devuelve el primer día
+  return dias[0] || null;
+}
+
 function setLang(l) {
   lang = l;
 
@@ -73,8 +101,8 @@ function setLang(l) {
     if(obj[`lugar_${lang}`] && !lugares.includes(obj[`lugar_${lang}`])) lugares.push(obj[`lugar_${lang}`]);
   });
 
-  // Selecciona el primer día por defecto
-  diaActivo = dias.length ? dias[1] : null;
+  // Selecciona el día adecuado según la fecha actual
+  diaActivo = obtenerDiaPorFechaActual(dias);
 
   renderFiltros();
   renderDiasNav();
@@ -159,8 +187,8 @@ async function fetchEventos() {
       if(obj[`lugar_${lang}`] && !lugares.includes(obj[`lugar_${lang}`])) lugares.push(obj[`lugar_${lang}`]);
       eventos.push(obj);
     }
-    // Selecciona el primer día por defecto
-    diaActivo = dias.length ? dias[1] : null;
+    // Selecciona el día adecuado según la fecha actual
+    diaActivo = obtenerDiaPorFechaActual(dias);
     renderFiltros();
     renderDiasNav();
     renderPrograma();
@@ -226,7 +254,7 @@ function renderDiasNav() {
   });
 
   // Por defecto, si no hay día activo, selecciona el primero
-  if(!diaActivo && dias.length) diaActivo = dias[1];
+  if(!diaActivo && dias.length) diaActivo = dias[0];
 }
 
 function filtrarEventos(ev) {
